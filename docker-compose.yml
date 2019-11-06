@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: flsk
+    ports:
+      - "5000:5000"
+    depends_on:
+      - preinst #
+    links:
+      - postgres
+      
+  preinst:
+    build: .
+    image: preinst
+    depends_on:
+      - postgres
+    links:
+      - postgres
+      
+  postgres:
+    restart: always
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - .\init.sql:\docker-entrypoint-initdb.d\init.sql

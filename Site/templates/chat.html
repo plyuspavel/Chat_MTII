@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+</head>
+<body>
+
+
+    <h1>Hello {{log}}</h1>
+    
+    <form method="post" action="/add_friend">
+        <input type="text" name="friendname">
+        <button type="submit">Add friend</button>
+    </form>
+    
+    <form method="post" action="/del_friend">
+        <input type="text" name="buttdel">
+        <button type="submit">Delete friend</button>
+    </form>
+    {% if friend != '' %}
+        <form method="post" action="/add_message">
+            <input type="text" name="text">
+            <button type="submit">Add message</button>
+            <input name="frnd" hidden="true" value="{{friend}}" type="text">
+        </form>
+    {% endif %}
+    
+    
+    <form method="post" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+    
+    {% if friend != '' %}
+        <h3>Messages with {{ friend }}:</h3>
+        
+        {% for message in messages %}
+        
+            <b>{{message[1]}}</b><br>
+            {{message[3]}}<br>
+            Time: {{ message[4] }}<br>
+            
+        {% endfor %}
+        
+    {% endif %}
+    
+    {% if isfr %}
+        <h3>Select friend:</h3>
+        {% for i in friends %}
+            <div><a href="{{ url_for('select_friend', friendname=i) }}">{{i}}</a></div>
+        {% endfor %}
+    {% else %}
+        <h3>Add friend to chat with him)</h3>
+    {% endif %}
+    
+
+</body>
